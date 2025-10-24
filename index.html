@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Launchpad - Your beautiful homepage for productivity">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Launchpad</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    
+    <!-- Google Fonts - Poppins (more aesthetic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    <div class="background-overlay" id="backgroundOverlay"></div>
+
+    <!-- Main Container -->
+    <div class="app-container">
+        
+        <!-- ========== HEADER SECTION ========== -->
+        <header class="header">
+            <!-- Left: Greeting -->
+            <div class="header-left">
+                <div class="greeting-inline" id="greetingInline">
+                    <span class="greeting-emoji" id="greetingEmoji">👋</span>
+                    <span class="greeting-message" id="greetingMessage">Good Morning</span>
+                </div>
+            </div>
+            
+            <!-- Right: Clock & Controls -->
+            <div class="header-right">
+                <div class="time-display" id="timeDisplay">
+                    <div class="time-main" id="timeMain">12:00</div>
+                    <div class="time-period" id="timePeriod">PM</div>
+                </div>
+                <div class="date-display" id="dateDisplay">Monday, Jan 1</div>
+                
+                <div class="header-controls">
+                    <button class="icon-button" id="themeToggle" title="Toggle theme">
+                        <svg class="theme-icon sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="theme-icon moon-icon hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                    <button class="icon-button" id="settingsBtn" title="Settings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M12 1v6m0 6v6M6 6l4.24 4.24M13.76 13.76 18 18M6 18l4.24-4.24M13.76 10.24 18 6"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ========== SEARCH SECTION ========== -->
+        <section class="search-section">
+            <div class="search-wrapper">
+                <div class="search-box">
+                    <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        id="searchInput" 
+                        placeholder="Search anything..." 
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                    <div class="search-engine-picker">
+                        <select id="searchEngine" class="search-select">
+                            <option value="google">Google</option>
+                            <option value="duckduckgo">DuckDuckGo</option>
+                            <option value="brave">Brave</option>
+                            <option value="bing">Bing</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CATEGORIES WITH OPEN ALL ========== -->
+        <section class="categories-section">
+            <div class="categories-tabs" id="categoriesContainer">
+                <button class="category-pill active" data-category="all">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    <span>All</span>
+                </button>
+                <button class="category-pill" data-category="work">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="7" width="20" height="14" rx="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                    <span>Work</span>
+                </button>
+                <button class="category-pill" data-category="personal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Personal</span>
+                </button>
+                <button class="category-pill" data-category="study">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    <span>Study</span>
+                </button>
+            </div>
+            
+            <!-- Open All Button -->
+            <button class="open-all-btn" id="openAllBtn" style="display: none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+                <span>Open All</span>
+            </button>
+        </section>
+
+        <!-- ========== WEBSITES GRID ========== -->
+        <section class="websites-section">
+            <div class="websites-grid" id="websitesGrid">
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">
+                        <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+                            <line x1="8" y1="21" x2="16" y2="21"></line>
+                            <line x1="12" y1="17" x2="12" y2="21"></line>
+                        </svg>
+                    </div>
+                    <h3 class="empty-title">No websites yet</h3>
+                    <p class="empty-text">Click the <strong>+</strong> button to add your first website</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PRODUCTIVITY PANELS (Removed - Now as Modals) ========== -->
+
+    </div>
+
+    <!-- ========== FLOATING ACTION BUTTONS ========== -->
+    <button class="fab" id="addWebsiteBtn" title="Add website">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+    </button>
+    
+    <button class="fab fab-todo" id="openTodoBtn" title="Tasks">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="9 11 12 14 22 4"></polyline>
+            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+        <span class="fab-badge" id="fabTaskCount">0</span>
+    </button>
+    
+    <button class="fab fab-timer" id="openTimerBtn" title="Focus Timer">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+    </button>
+
+    <!-- ========== MODALS ========== -->
+
+    <!-- Todo Modal -->
+    <div class="modal" id="todoModal">
+        <div class="modal-overlay" id="todoModalOverlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-header-left">
+                    <div class="panel-icon todo-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 11 12 14 22 4"></polyline>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                        </svg>
+                    </div>
+                    <h2 class="modal-title">Tasks</h2>
+                    <span class="badge" id="taskCount">0</span>
+                </div>
+                <button class="modal-close" id="todoModalClose">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="todo-input-wrapper">
+                    <input 
+                        type="text" 
+                        class="todo-input" 
+                        id="todoInput" 
+                        placeholder="What needs to be done?"
+                    >
+                    <button class="add-btn" id="addTodoBtn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="todo-list" id="todoList"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="text-btn" id="clearCompletedBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                    Clear Completed
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timer Modal -->
+    <div class="modal" id="timerModal">
+        <div class="modal-overlay" id="timerModalOverlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-header-left">
+                    <div class="panel-icon pomodoro-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <h2 class="modal-title">Focus Timer</h2>
+                    <div class="timer-mode-switcher">
+                        <button class="timer-mode-btn active" data-minutes="25">25m</button>
+                        <button class="timer-mode-btn" data-minutes="15">15m</button>
+                        <button class="timer-mode-btn" data-minutes="5">5m</button>
+                    </div>
+                </div>
+                <button class="modal-close" id="timerModalClose">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body pomodoro-body">
+                <div class="timer-display">
+                    <svg class="timer-ring" width="160" height="160">
+                        <circle class="timer-ring-bg" cx="80" cy="80" r="70"></circle>
+                        <circle class="timer-ring-progress" cx="80" cy="80" r="70" id="timerProgress"></circle>
+                    </svg>
+                    <div class="timer-content">
+                        <div class="timer-time" id="timerTime">25:00</div>
+                        <div class="timer-label" id="timerLabel">Focus Time</div>
+                    </div>
+                </div>
+                <div class="timer-controls">
+                    <button class="timer-btn secondary" id="timerReset">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="1 4 1 10 7 10"></polyline>
+                            <polyline points="23 20 23 14 17 14"></polyline>
+                            <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path>
+                        </svg>
+                        Reset
+                    </button>
+                    <button class="timer-btn primary" id="timerStart">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        Start
+                    </button>
+                </div>
+                <div class="timer-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" id="sessionsToday">0</span>
+                        <span class="stat-label">Sessions Today</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Website Modal -->
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+    </button>
+
+    <!-- ========== MODALS ========== -->
+
+    <!-- Website Modal -->
+    <div class="modal" id="websiteModal">
+        <div class="modal-overlay" id="websiteModalOverlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title" id="websiteModalTitle">Add Website</h2>
+                <button class="modal-close" id="websiteModalClose">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <label class="input-label" for="websiteUrl">Website URL *</label>
+                    <input 
+                        type="url" 
+                        class="input-field" 
+                        id="websiteUrl" 
+                        placeholder="https://example.com"
+                    >
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="websiteName">Display Name</label>
+                    <input 
+                        type="text" 
+                        class="input-field" 
+                        id="websiteName" 
+                        placeholder="Auto-detected from URL"
+                    >
+                </div>
+                <div class="input-group">
+                    <label class="input-label" for="websiteCategory">Category</label>
+                    <select class="input-field" id="websiteCategory">
+                        <option value="all">All</option>
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                        <option value="study">Study</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-btn" id="websiteModalCancel">Cancel</button>
+                <button class="primary-btn" id="websiteModalSave">Add Website</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-overlay" id="settingsModalOverlay"></div>
+        <div class="modal-container large">
+            <div class="modal-header">
+                <h2 class="modal-title">Settings</h2>
+                <button class="modal-close" id="settingsModalClose">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <!-- Appearance -->
+                <div class="settings-group">
+                    <h3 class="settings-group-title">Appearance</h3>
+                    
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <label class="setting-label" for="settingsTimeFormat">Time Format</label>
+                            <p class="setting-desc">Choose 12 or 24 hour format</p>
+                        </div>
+                        <select class="input-field compact" id="settingsTimeFormat">
+                            <option value="12">12-hour</option>
+                            <option value="24">24-hour</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <label class="setting-label" for="settingsGridSize">Icon Size</label>
+                            <p class="setting-desc">Size of website icons</p>
+                        </div>
+                        <select class="input-field compact" id="settingsGridSize">
+                            <option value="small">Small</option>
+                            <option value="medium">Medium</option>
+                            <option value="large">Large</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <label class="setting-label" for="settingsShowGreeting">Show Greeting</label>
+                            <p class="setting-desc">Display time-based greeting</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="settingsShowGreeting" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <label class="setting-label" for="settingsShowDate">Show Date</label>
+                            <p class="setting-desc">Display current date</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="settingsShowDate" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Background -->
+                <div class="settings-group">
+                    <h3 class="settings-group-title">Background</h3>
+                    
+                    <div class="setting-row column">
+                        <label class="setting-label" for="settingsBgUrl">Custom Background</label>
+                        <div class="bg-input-group">
+                            <input 
+                                type="text" 
+                                class="input-field" 
+                                id="settingsBgUrl" 
+                                placeholder="Enter image URL or paste image"
+                            >
+                            <input type="file" id="settingsBgUpload" accept="image/*" style="display: none;">
+                            <button class="secondary-btn" id="settingsBgUploadBtn">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                Upload
+                            </button>
+                            <button class="secondary-btn" id="settingsBgRemove">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <label class="setting-label" for="settingsBgBlur">Background Blur</label>
+                            <p class="setting-desc">Blur amount: <span id="blurValueDisplay">0px</span></p>
+                        </div>
+                        <input 
+                            type="range" 
+                            class="range-slider" 
+                            id="settingsBgBlur" 
+                            min="0" 
+                            max="30" 
+                            value="0"
+                        >
+                    </div>
+                </div>
+
+                <!-- Data -->
+                <div class="settings-group">
+                    <h3 class="settings-group-title">Data Management</h3>
+                    
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <div class="setting-label">Reset Everything</div>
+                            <p class="setting-desc">Delete all data and start fresh</p>
+                        </div>
+                        <button class="danger-btn" id="settingsReset">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            Reset All
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TIMER NOTIFICATION ========== -->
+    <div class="notification-popup" id="timerNotification">
+        <div class="notification-content">
+            <div class="notification-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+            <h3 class="notification-title">Pomodoro Complete!</h3>
+            <p class="notification-message">Great work! Time for a break.</p>
+            <button class="notification-close-btn" id="closeNotification">Got it!</button>
+        </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="script.js"></script>
+    
+</body>
+</html>
