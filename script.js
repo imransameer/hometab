@@ -83,6 +83,9 @@ const el = {
     settingsBgBlur: document.getElementById('settingsBgBlur'),
     blurValueDisplay: document.getElementById('blurValueDisplay'),
     settingsReset: document.getElementById('settingsReset'),
+    downloadDataBtn: document.getElementById('downloadDataBtn'),
+    uploadDataBtn: document.getElementById('uploadDataBtn'),
+    uploadDataInput: document.getElementById('uploadDataInput'),
     
     // Background
     backgroundOverlay: document.getElementById('backgroundOverlay'),
@@ -844,6 +847,131 @@ function removeBackground() {
     applySettings();
 }
 
+// ========== DATA MANAGEMENT ==========
+function downloadData() {
+    try {
+        // Get all data from localStorage
+        const data = {
+            websites: state.websites,
+            todos: state.todos,
+            settings: state.settings,
+            panels: state.panels,
+            pomodoro: {
+                selectedDuration: state.pomodoro.selectedDuration,
+                sessionsToday: state.pomodoro.sessionsToday
+            },
+            exportDate: new Date().toISOString(),
+            version: '1.0'
+        };
+        
+        // Convert to JSON string
+        const jsonString = JSON.stringify(data, null, 2);
+        
+        // Create blob
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        
+        // Create download link
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `launchpad-data-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        console.log('✅ Data exported successfully!');
+        alert('✅ Data downloaded successfully!');
+    } catch (e) {
+        console.error('Failed to download data:', e);
+        alert('❌ Failed to download data. Please try again.');
+    }
+}
+
+function uploadData(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Confirm before uploading
+    if (!confirm('⚠️ Upload Data?\n\nThis will replace your current data with the data from the file.\n\nYour current data will be lost unless you have downloaded it first.\n\nContinue?')) {
+        el.uploadDataInput.value = '';
+        return;
+    }
+    
+    const reader = new FileReader();
+    
+    reader.onload = function(event) {
+        try {
+            // Parse JSON
+            const data = JSON.parse(event.target.result);
+            
+            // Validate data structure
+            if (!data || typeof data !== 'object') {
+                throw new Error('Invalid data format');
+            }
+            
+            // Import data
+            if (data.websites && Array.isArray(data.websites)) {
+                state.websites = data.websites;
+            }
+            
+            if (data.todos && Array.isArray(data.todos)) {
+                state.todos = data.todos;
+            }
+            
+            if (data.settings && typeof data.settings === 'object') {
+                state.settings = { ...state.settings, ...data.settings };
+            }
+            
+            if (data.panels && typeof data.panels === 'object') {
+                state.panels = { ...state.panels, ...data.panels };
+            }
+            
+            if (data.pomodoro) {
+                if (data.pomodoro.selectedDuration) {
+                    state.pomodoro.selectedDuration = data.pomodoro.selectedDuration;
+                    state.pomodoro.duration = data.pomodoro.selectedDuration * 60;
+                    state.pomodoro.timeRemaining = data.pomodoro.selectedDuration * 60;
+                }
+                if (data.pomodoro.sessionsToday !== undefined) {
+                    state.pomodoro.sessionsToday = data.pomodoro.sessionsToday;
+                }
+            }
+            
+            // Save to localStorage
+            saveData();
+            
+            // Update UI
+            applyTheme();
+            applySettings();
+            renderWebsites();
+            renderTodos();
+            updatePomodoroDisplay();
+            
+            console.log('✅ Data imported successfully!');
+            alert('✅ Data uploaded successfully! The page will reload.');
+            
+            // Reload to apply all changes
+            setTimeout(() => location.reload(), 1000);
+            
+        } catch (e) {
+            console.error('Failed to import data:', e);
+            alert('❌ Failed to upload data. Please make sure the file is a valid Launchpad data file.');
+        }
+        
+        // Reset file input
+        el.uploadDataInput.value = '';
+    };
+    
+    reader.onerror = function() {
+        console.error('Failed to read file');
+        alert('❌ Failed to read file. Please try again.');
+        el.uploadDataInput.value = '';
+    };
+    
+    reader.readAsText(file);
+}
+
 function resetAll() {
     if (!confirm('⚠️ Delete ALL data?\n\nThis will remove:\n• All websites\n• All tasks\n• All notes\n• All settings\n\nThis cannot be undone!')) {
         return;
@@ -938,6 +1066,11 @@ function setupEventListeners() {
     el.settingsBgUpload.addEventListener('change', handleBackgroundUpload);
     el.settingsBgRemove.addEventListener('click', removeBackground);
     el.settingsReset.addEventListener('click', resetAll);
+    
+    // Data Management
+    el.downloadDataBtn.addEventListener('click', downloadData);
+    el.uploadDataBtn.addEventListener('click', () => el.uploadDataInput.click());
+    el.uploadDataInput.addEventListener('change', uploadData);
     
     // Paste image for background
     el.settingsBgUrl.addEventListener('paste', (e) => {

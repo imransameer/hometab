@@ -480,6 +480,37 @@
                     
                     <div class="setting-row">
                         <div class="setting-info">
+                            <div class="setting-label">Download Data</div>
+                            <p class="setting-desc">Export all your data as a JSON file</p>
+                        </div>
+                        <button class="secondary-btn" id="downloadDataBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Download
+                        </button>
+                    </div>
+
+                    <div class="setting-row">
+                        <div class="setting-info">
+                            <div class="setting-label">Upload Data</div>
+                            <p class="setting-desc">Import data from a JSON file</p>
+                        </div>
+                        <input type="file" id="uploadDataInput" accept=".json" style="display: none;">
+                        <button class="secondary-btn" id="uploadDataBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            Upload
+                        </button>
+                    </div>
+                    
+                    <div class="setting-row">
+                        <div class="setting-info">
                             <div class="setting-label">Reset Everything</div>
                             <p class="setting-desc">Delete all data and start fresh</p>
                         </div>
